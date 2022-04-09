@@ -1,4 +1,11 @@
 import { useState } from "react"
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import app from "../../firebase.init"
+
+
+
+const auth = new getAuth(app)
+const googleProvider = new GoogleAuthProvider()
 
 const useFirebase = () => {
 
@@ -6,11 +13,16 @@ const useFirebase = () => {
 
 
     const signInWithGoogle = () => {
-        console.log('signing in soon');
+        signInWithPopup( auth, googleProvider )
+        .then( result => {
+            const user = result.user
+            setUser(user)
+            console.log(user);
+        })
     }
 
 
-    return {user, signInWithGoogle}
+    return {user, setUser, signInWithGoogle}
 
 }
 
